@@ -16,7 +16,7 @@ def category(request,category):
 
 def product_details(request ,id):
     product= Product.objects.get(id=id)
-    return render(request,"app\productDetails.html", {'product':product})
+    return render(request,"app/productDetails.html", {'product':product})
 
 
 def categoryTittle(request,tittle):
