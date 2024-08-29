@@ -1,5 +1,5 @@
 from django.shortcuts import render ,redirect
-from .models import Product,Users,Cart
+from .models import Product,CustomUsers,Cart
 from django.http import JsonResponse
 from django.http  import HttpResponse
 from django.db.models import Q
@@ -50,13 +50,13 @@ def userRegister(request):
         address=request.POST['address']
         password=request.POST['password']
         cpassword=request.POST['cpassword']
-        user=Users.objects.filter(Email=email)
+        user=CustomUsers.objects.filter(Email=email)
         if user:
             message="User is already exist"
             return render(request, 'app/register.html',{'msg':message})
         else:
             if password==cpassword:
-                newUser=Users.objects.create(firstName=fname,lastName=lname,Email=email,contact=contact,address=address,password=password)
+                newUser=CustomUsers.objects.create(firstName=fname,lastName=lname,Email=email,contact=contact,address=address,password=password)
                 message="User register successfully !"
                 return render(request,'app/login.html' ,{'msg':message})
             else:
@@ -69,7 +69,7 @@ def userLogin(request):
     if request.method == 'POST':
         email=request.POST['email']
         password= request.POST['password']
-        user=Users.objects.get(Email=email)
+        user=CustomUsers.objects.get(Email=email)
         print(user)
         if user:
             if user.password==password:
@@ -91,20 +91,20 @@ def userProfile(request):
     userName=request.session.get('email')
     if userName:
         try:
-            user= Users.objects.get(Email=userName)
+            user= CustomUsers.objects.get(Email=userName)
             return render(request, 'app/profile.html',{'user':user})
-        except Users.DoesNotExist:
+        except CustomUsers.DoesNotExist:
             pass
     return redirect('userLogin')    
 
 
 def editProfile(request, Email):
-    user=Users.objects.get(Email=Email)
+    user=CustomUsers.objects.get(Email=Email)
     return render(request, 'app/edit.html', {'user':user})
 
 def updateProfile(request, Email):
     if request.method=='POST':
-        user=Users.objects.get(Email=Email)
+        user=CustomUsers.objects.get(Email=Email)
         user.firstName=request.POST['fname']
         user.lastName=request.POST['lname']
         user.address=request.POST['address']
@@ -118,9 +118,9 @@ def cPassword(request):
     userName=request.session.get('email')
     if userName:
         try:
-            user= Users.objects.get(Email=userName)
+            user= CustomUsers.objects.get(Email=userName)
             return render(request, 'app/changePassword.html',{'user':user})
-        except Users.DoesNotExist:
+        except CustomUsers.DoesNotExist:
             pass
     return redirect('changePassword') 
 
@@ -129,7 +129,7 @@ def cPassword(request):
 def changePassword(request,Email):
     userName=request.session.get('email')
     print(userName)
-    user=Users.objects.get(Email=userName)
+    user=CustomUsers.objects.get(Email=userName)
     print(user)
     if request.method=='POST':
         oldpassword=request.POST['oldpassword']
@@ -151,7 +151,7 @@ def changePassword(request,Email):
 
 def add_to_cart(request):
     userName=request.session.get('email')
-    user=Users.objects.get(Email=userName)
+    user=CustomUsers.objects.get(Email=userName)
     product_id=request.POST.get('prod_id')
     product=Product.objects.get(id=product_id)
     try:
@@ -162,7 +162,7 @@ def add_to_cart(request):
 
 def show_cart(request):
     userName=request.session.get('email')
-    user=Users.objects.get(Email=userName)
+    user=CustomUsers.objects.get(Email=userName)
     cart=Cart.objects.filter(user=user)
 
     amount=0
@@ -178,14 +178,14 @@ def pluscart(request):
         prod_id=request.GET['prod_id']
         # print(id)
         userName=request.session.get('email')
-        user=Users.objects.get(Email=userName)
+        user=CustomUsers.objects.get(Email=userName)
         print(user)
         c= Cart.objects.get(product=prod_id , user=user)
         print("the valueof c:",c)
         c.quantity+=1
         c.save()
         # userName=request.session.get('email')
-        # user=Users.objects.get(Email=userName)
+        # user=CustomUsers.objects.get(Email=userName)
         cart=Cart.objects.filter(user=user)
         amount=0
         for p in cart:
@@ -217,14 +217,14 @@ def minuscart(request):
     if request.method == 'GET':
         prod_id=request.GET['prod_id']
         userName=request.session.get('email')
-        user=Users.objects.get(Email=userName)
+        user=CustomUsers.objects.get(Email=userName)
         print(user)
         c= Cart.objects.get(product=prod_id)
         print(c)
         c.quantity-=1
         c.save()
         # userName=request.session.get('email')
-        # user=Users.objects.get(Email=userName)
+        # user=CustomUsers.objects.get(Email=userName)
         cart=Cart.objects.filter(user=user)
         amount=0
         for p in cart:
@@ -246,13 +246,13 @@ def removecart(request):
     if request.method == 'GET':
         prod_id=request.GET['prod_id']
         userName=request.session.get('email')
-        user=Users.objects.get(Email=userName)
+        user=CustomUsers.objects.get(Email=userName)
         print(user)
         c= Cart.objects.get(product=prod_id)
         print(c)
         c.delete()
         # userName=request.session.get('email')
-        # user=Users.objects.get(Email=userName)
+        # user=CustomUsers.objects.get(Email=userName)
         cart=Cart.objects.filter(user=user)
         amount=0
         for p in cart:

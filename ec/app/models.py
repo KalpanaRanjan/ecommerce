@@ -26,7 +26,7 @@ class Product(models.Model):
         return self.tittle
     
 
-class Users(models.Model):
+class CustomUsers(models.Model):
     firstName=models.CharField(max_length=50)
     lastName=models.CharField(max_length=50)
     Email=models.EmailField(max_length=50)
@@ -35,7 +35,7 @@ class Users(models.Model):
     password=models.CharField(max_length=30)
 
 class Cart(models.Model):
-    user=models.ForeignKey(Users,on_delete=models.CASCADE)  
+    user=models.ForeignKey(CustomUsers,on_delete=models.CASCADE)  
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
     quantity=models.PositiveIntegerField(default=1)
 
