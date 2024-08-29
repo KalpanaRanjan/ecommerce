@@ -1,0 +1,18 @@
+{% extends 'app/base.html'%}
+{% load static %}
+{% block tittle %}profile{% endblock %}
+{% block main-content %}
+<div class="container">
+    <div class="row">
+        <h3>welcome {{request.session.firstName}}</h3>
+        <div class="col-sm-2 border-end">
+           <ul class="list-unstyled">
+            <li class="d-grid"><a href="#" class=" btn btn-primary"> change Password</a></li>
+           </ul>
+        </div>
+        <div class="col-sm-9 offset-sm-1">
+            <h3 class="text-center text-danger">{{msg}}</h3>
+        </div>
+     </div>       
+  </div>
+{% endblock main-content %}

@@ -1,0 +1,22 @@
+{% extends 'app/base.html'%}
+{% load static %}
+{% block tittle %}profile{% endblock %}
+{% block main-content %}
+<div class="container">
+    <div class="row">
+        <h1>Welcome to your Profile ,{{user.firstName}}</h1>
+        <div class="col-lg-8">
+            <div class="card m-2">
+                <div class="card-body">
+                    <p>FirstName : {{user.firstName}}</p>
+                    <p>LastName : {{user.lastName}}</p>
+                    <p>Address : {{user.address}}</p>
+                    <p>Contact : {{user.contact}}</p>
+                    <p>Email : {{user.Email}}</p>
+                    <p class="text-left"><a href="{% url 'editProfile' user.Email %}" type="button" class="btn btn-success">Update</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
