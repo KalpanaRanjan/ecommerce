@@ -219,7 +219,7 @@ def minuscart(request):
         userName=request.session.get('email')
         user=CustomUsers.objects.get(Email=userName)
         print(user)
-        c= Cart.objects.get(product=prod_id)
+        c= Cart.objects.get(product=prod_id, user=user)
         print(c)
         c.quantity-=1
         c.save()
@@ -248,7 +248,7 @@ def removecart(request):
         userName=request.session.get('email')
         user=CustomUsers.objects.get(Email=userName)
         print(user)
-        c= Cart.objects.get(product=prod_id)
+        c= Cart.objects.get(product=prod_id, user=user)
         print(c)
         c.delete()
         # userName=request.session.get('email')
