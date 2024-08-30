@@ -48,7 +48,7 @@ $('.remove-cart').click(function(){
         },
         success:function(data){
             console.log("data = ",data );
-            a.innerText=data.quantity
+            document.getElementById("amount").innerText=data.amount
             document.getElementById("totalamount").innerText=data.totalamount
             a.parentNode.parentNode.parentNode.parentNode.remove()
         }

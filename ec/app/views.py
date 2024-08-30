@@ -271,4 +271,14 @@ def removecart(request):
     
 
 def checkOut(request):
-    return render(request, 'app/checkout.html')
+    userName=request.session.get('email')
+    add=CustomUsers.objects.filter(Email=userName)
+    user=CustomUsers.objects.get(Email=userName)
+    cart_items=Cart.objects.filter(user=user)
+    famount=0
+    for p in cart_items:
+        value = p.quantity * p.product.discounted_price
+        famount=famount + value
+
+    totalamount=famount+40    
+    return render(request, 'app/checkout.html', locals())
